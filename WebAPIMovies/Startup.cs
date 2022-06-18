@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebAPIMovies.Services;
 
 namespace WebAPIMovies
 {
@@ -15,9 +16,17 @@ namespace WebAPIMovies
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+            // guardado en azure
+            // enganchamos la interfaz de IStoreFiles con el servicio StoreFilesAzure,
+            // entonce al inyectar el servicio, se ejecuta el constructor StoreFilesAzure(IConfiguration configuration)
+            services.AddTransient<IStoreFiles, StoreFilesAzure>();
+            // guardado local
+            // services.AddTransient<IStoreFiles, StoreFilesLocal>();
+            services.AddHttpContextAccessor();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
@@ -37,6 +46,8 @@ namespace WebAPIMovies
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
