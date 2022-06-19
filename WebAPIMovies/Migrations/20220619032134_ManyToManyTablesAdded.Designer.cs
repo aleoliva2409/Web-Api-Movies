@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAPIMovies;
 
@@ -11,9 +12,10 @@ using WebAPIMovies;
 namespace WebAPIMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220619032134_ManyToManyTablesAdded")]
+    partial class ManyToManyTablesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace WebAPIMovies.Migrations
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime>("PremiereDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -130,13 +132,13 @@ namespace WebAPIMovies.Migrations
             modelBuilder.Entity("WebAPIMovies.Entities.MoviesActors", b =>
                 {
                     b.HasOne("WebAPIMovies.Entities.Actor", "Actor")
-                        .WithMany("MoviesActors")
+                        .WithMany()
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebAPIMovies.Entities.Movie", "Movie")
-                        .WithMany("MoviesActors")
+                        .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -149,13 +151,13 @@ namespace WebAPIMovies.Migrations
             modelBuilder.Entity("WebAPIMovies.Entities.MoviesGenders", b =>
                 {
                     b.HasOne("WebAPIMovies.Entities.Gender", "Gender")
-                        .WithMany("MoviesGenders")
+                        .WithMany()
                         .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebAPIMovies.Entities.Movie", "Movie")
-                        .WithMany("MoviesGenders")
+                        .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -163,23 +165,6 @@ namespace WebAPIMovies.Migrations
                     b.Navigation("Gender");
 
                     b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("WebAPIMovies.Entities.Actor", b =>
-                {
-                    b.Navigation("MoviesActors");
-                });
-
-            modelBuilder.Entity("WebAPIMovies.Entities.Gender", b =>
-                {
-                    b.Navigation("MoviesGenders");
-                });
-
-            modelBuilder.Entity("WebAPIMovies.Entities.Movie", b =>
-                {
-                    b.Navigation("MoviesActors");
-
-                    b.Navigation("MoviesGenders");
                 });
 #pragma warning restore 612, 618
         }
