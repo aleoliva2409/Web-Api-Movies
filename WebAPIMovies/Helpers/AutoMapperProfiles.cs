@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using WebAPIMovies.DTOs;
 using WebAPIMovies.Entities;
 
@@ -6,12 +8,23 @@ namespace WebAPIMovies.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
-        public AutoMapperProfiles()
+        public AutoMapperProfiles(GeometryFactory geometryFactory)
         {
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GenreCreateDTO, Genre>();
 
-            CreateMap<Cinema, CinemaDTO>().ReverseMap();
+            CreateMap<Cinema, CinemaDTO>()
+                .ForMember(c => c.Latitude, opt => opt.MapFrom(c => c.Location.Y))
+                .ForMember(c => c.Longitude, opt => opt.MapFrom(c => c.Location.X));
+
+            CreateMap<CinemaDTO, Cinema>()
+                .ForMember(c => c.Location, opt => opt.MapFrom(x =>
+                geometryFactory.CreatePoint(new Coordinate(x.Longitude, x.Latitude))));
+
+            CreateMap<CinemaCreateDTO, Cinema>()
+                .ForMember(c => c.Location, opt => opt.MapFrom(x =>
+                geometryFactory.CreatePoint(new Coordinate(x.Longitude, x.Latitude))));
+
             CreateMap<CinemaCreateDTO, Cinema>();
 
             CreateMap<Actor, ActorDTO>().ReverseMap();

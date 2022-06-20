@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using WebAPIMovies.DTOs;
 using WebAPIMovies.Entities;
 
@@ -11,12 +13,15 @@ namespace WebAPIMovies.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly GeometryFactory geometryFactory;
 
         public CinemasController(ApplicationDbContext context,
-            IMapper mapper) : base(context, mapper)
+            IMapper mapper, GeometryFactory geometryFactory)
+            : base(context, mapper)
         {
             this.context = context;
             this.mapper = mapper;
+            this.geometryFactory = geometryFactory;
         }
 
         [HttpGet]
@@ -29,6 +34,29 @@ namespace WebAPIMovies.Controllers
         public async Task<ActionResult<CinemaDTO>> GetById(int id)
         {
             return await GetById<Cinema, CinemaDTO>(id);
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<CinemaFilteredDTO>>> Get
+            ([FromQuery] CinemaFilterDTO cinemaFilterDTO)
+        {
+            var userLocation = geometryFactory.CreatePoint(
+                new Coordinate(cinemaFilterDTO.Longitude, cinemaFilterDTO.Latitude));
+
+            var cinemas = await context.Cinemas
+                .OrderBy(c => c.Location.Distance(userLocation))
+                .Where(c => c.Location.IsWithinDistance(userLocation,
+                cinemaFilterDTO.DistanceInKMs * 1000))
+                .Select(c => new CinemaFilteredDTO
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Latitude = c.Location.Y,
+                    Longitude = c.Location.X,
+                    DistanceInMeters = Math.Round(c.Location.Distance(userLocation))
+                }).ToListAsync();
+
+            return cinemas;
         }
 
         [HttpPost]
