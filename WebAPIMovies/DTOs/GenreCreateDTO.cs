@@ -2,7 +2,7 @@
 
 namespace WebAPIMovies.DTOs
 {
-    public class GenderCreateDTO
+    public class GenreCreateDTO
     {
         [Required]
         [StringLength(40)]

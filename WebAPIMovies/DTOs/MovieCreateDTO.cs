@@ -18,7 +18,7 @@ namespace WebAPIMovies.DTOs
         public IFormFile Poster { get; set; }
 
         [ModelBinder(BinderType = typeof(TypeBinder<List<int>>))]
-        public List<int> GendersIds { get; set; }
+        public List<int> GenresIds { get; set; }
 
         [ModelBinder(BinderType = typeof(TypeBinder<List<ActorsMoviesCreateDTO>>))]
         public List<ActorsMoviesCreateDTO> Actors { get; set; }

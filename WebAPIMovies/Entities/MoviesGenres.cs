@@ -1,10 +1,10 @@
 ﻿namespace WebAPIMovies.Entities
 {
-    public class MoviesGenders
+    public class MoviesGenres
     {
         public int MovieId { get; set; }
-        public int GenderId { get; set; }
+        public int GenreId { get; set; }
         public Movie Movie { get; set; }
-        public Gender Gender { get; set; }
+        public Genre Genre { get; set; }
     }
 }

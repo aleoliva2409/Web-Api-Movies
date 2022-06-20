@@ -27,28 +27,81 @@ namespace WebAPIMovies.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MovieDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
+        public async Task<ActionResult<MovieIndexDTO>> Get()
         {
-            var queryable = context.Movies.AsQueryable();
-            await HttpContext.InsertPaginationParameters(queryable, paginationDTO.quantityPerPage);
+            var top = 5;
+            var today = DateTime.Today;
 
-            var moviesDB = await queryable.ToPaginate(paginationDTO).ToListAsync();
-            var moviesMapped = mapper.Map<List<MovieDTO>>(moviesDB);
-            return moviesMapped;
+            var nextReleases = await context.Movies
+                .Where(m => m.ReleaseDate > today)
+                .OrderBy(m => m.ReleaseDate)
+                .Take(top)
+                .ToListAsync();
+
+            var inTheaters = await context.Movies
+                .Where(m => m.InTheaters)
+                .Take(top)
+                .ToListAsync();
+
+            var result = new MovieIndexDTO()
+            {
+                InTheaters = mapper.Map<List<MovieDTO>>(inTheaters),
+                NextReleases = mapper.Map<List<MovieDTO>>(nextReleases)
+            };
+
+            return result;
+        }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<List<MovieDTO>>> GetFilter([FromQuery] MovieFilterDTO movieFilterDTO)
+        {
+            var moviesQueryable = context.Movies.AsQueryable();
+
+            if (!string.IsNullOrEmpty(movieFilterDTO.Title))
+            {
+                moviesQueryable = moviesQueryable.Where(m => m.Title.Contains(movieFilterDTO.Title));
+            }
+
+            if (movieFilterDTO.InTheaters)
+            {
+                moviesQueryable = moviesQueryable.Where(m => m.InTheaters);
+            }
+
+            if (movieFilterDTO.NextReleases)
+            {
+                var today = DateTime.Today;
+                moviesQueryable = moviesQueryable.Where(m => m.ReleaseDate > today);
+            }
+
+            if (movieFilterDTO.GenreId != 0)
+            {
+                moviesQueryable = moviesQueryable
+                    .Where(m => m.MoviesGenres.Select(mg => mg.GenreId)
+                    .Contains(movieFilterDTO.GenreId));
+            }
+
+            await HttpContext.InsertPaginationParameters(moviesQueryable, movieFilterDTO.QuantityPerPage);
+
+            var movies = await moviesQueryable.ToPaginate(movieFilterDTO.Pagination).ToListAsync();
+
+            return mapper.Map<List<MovieDTO>>(movies);
         }
 
         [HttpGet("{id:int}", Name = "getMovie")]
-        public async Task<ActionResult<MovieDTO>> Get(int id)
+        public async Task<ActionResult<MovieDetailDTO>> Get(int id)
         {
-            var movieDB = await context.Movies.FirstOrDefaultAsync(m => m.Id == id);
+            var movieDB = await context.Movies
+                .Include(m => m.MoviesActors).ThenInclude(ma => ma.Actor)
+                .Include(m => m.MoviesGenres).ThenInclude(mg => mg.Genre)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (movieDB == null)
             {
                 return NotFound();
             }
 
-            var movieMapped = mapper.Map<MovieDTO>(movieDB);
-            return movieMapped;
+            movieDB.MoviesActors = movieDB.MoviesActors.OrderBy(ma => ma.Order).ToList();
+            return mapper.Map<MovieDetailDTO>(movieDB);
         }
 
         [HttpPost]
@@ -81,7 +134,7 @@ namespace WebAPIMovies.Controllers
         {
             var movieDB = await context.Movies
                 .Include(m => m.MoviesActors)
-                .Include(m => m.MoviesGenders)
+                .Include(m => m.MoviesGenres)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (movieDB == null)
@@ -157,7 +210,7 @@ namespace WebAPIMovies.Controllers
             return NoContent();
         }
 
-        private void AsignOrderActors(Movie movie)
+        private static void AsignOrderActors(Movie movie)
         {
             if (movie.MoviesActors != null)
             {

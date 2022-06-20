@@ -8,8 +8,8 @@ namespace WebAPIMovies.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Gender, GenderDTO>().ReverseMap();
-            CreateMap<GenderCreateDTO, Gender>();
+            CreateMap<Genre, GenreDTO>().ReverseMap();
+            CreateMap<GenreCreateDTO, Genre>();
 
             CreateMap<Actor, ActorDTO>().ReverseMap();
             CreateMap<ActorCreateDTO, Actor>().ForMember(a =>
@@ -19,26 +19,28 @@ namespace WebAPIMovies.Helpers
             CreateMap<Movie, MovieDTO>().ReverseMap();
             CreateMap<MovieCreateDTO, Movie>()
                 .ForMember(m => m.Poster, opt => opt.Ignore())
-                .ForMember(m => m.MoviesGenders, opt => opt.MapFrom(MapMoviesGenders))
+                .ForMember(m => m.MoviesGenres, opt => opt.MapFrom(MapMoviesGenres))
                 .ForMember(m => m.MoviesActors, opt => opt.MapFrom(MapMoviesActors));
             CreateMap<MovieUpdateDTO, Movie>().ReverseMap();
+            CreateMap<Movie, MovieDetailDTO>()
+                .ForMember(m => m.Genres, opt => opt.MapFrom(MapMoviesGenres))
+                .ForMember(m => m.Actors, opt => opt.MapFrom(MapMoviesActors));
         }
 
-        
-        private List<MoviesGenders> MapMoviesGenders(MovieCreateDTO movieCreateDTO, Movie movie)
+        private List<MoviesGenres> MapMoviesGenres(MovieCreateDTO movieCreateDTO, Movie movie)
         {
-            var result = new List<MoviesGenders>();
+            var result = new List<MoviesGenres>();
 
-            if (movieCreateDTO.GendersIds == null)
+            if (movieCreateDTO.GenresIds == null)
             {
                 return result;
             }
 
-            foreach (var id in movieCreateDTO.GendersIds)
+            foreach (var id in movieCreateDTO.GenresIds)
             {
-                result.Add(new MoviesGenders
+                result.Add(new MoviesGenres
                 {
-                    GenderId = id
+                    GenreId = id
                 });
             }
 
@@ -60,6 +62,49 @@ namespace WebAPIMovies.Helpers
                 {
                     ActorId = actor.ActorId,
                     Character = actor.Character
+                });
+            }
+            
+            return result;
+        }
+
+        private List<GenreDTO> MapMoviesGenres(Movie movie, MovieDetailDTO movieDetailDTO)
+        {
+            var result = new List<GenreDTO>();
+
+            if (movie.MoviesGenres == null)
+            {
+                return result;
+            }
+            
+            foreach (var movieGenre in movie.MoviesGenres)
+            {
+                result.Add(new GenreDTO
+                {
+                    Id = movieGenre.GenreId,
+                    Name = movieGenre.Genre.Name
+                });
+            }
+
+            return result;
+        }
+
+        private List<MovieActorDetailDTO> MapMoviesActors(Movie movie, MovieDetailDTO movieDetailDTO)
+        {
+            var result = new List<MovieActorDetailDTO>();
+
+            if (movie.MoviesActors == null)
+            {
+                return result;
+            }
+
+            foreach (var movieActor in movie.MoviesActors)
+            {
+                result.Add(new MovieActorDetailDTO
+                {
+                    ActorId = movieActor.ActorId,
+                    Character = movieActor.Character,
+                    Name = movieActor.Actor.Name,
                 });
             }
 
