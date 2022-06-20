@@ -17,17 +17,14 @@ namespace WebAPIMovies.Controllers
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IStoreFiles storeFiles;
-        private readonly ILogger logger;
         private readonly string container = "movies";
 
         public MoviesController(ApplicationDbContext context,
-            IMapper mapper, IStoreFiles storeFiles,
-            ILogger logger) : base(context, mapper)
+            IMapper mapper, IStoreFiles storeFiles) : base(context, mapper)
         {
             this.context = context;
             this.mapper = mapper;
             this.storeFiles = storeFiles;
-            this.logger = logger;
         }
 
         [HttpGet]
@@ -92,9 +89,10 @@ namespace WebAPIMovies.Controllers
                 {
                     moviesQueryable = moviesQueryable.OrderBy($"{movieFilterDTO.Order} {orderType}");
                 }
-                catch (Exception ex)
+                catch
                 {
-                    logger.LogError(ex.Message, ex);
+                    // logger.LogError(ex.Message);
+                    return BadRequest("Invalid filter");
                 }
             }
 

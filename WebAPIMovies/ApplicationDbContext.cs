@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
@@ -31,15 +32,15 @@ namespace WebAPIMovies
             modelBuilder.Entity<MoviesCinemas>()
                 .HasKey(mc => new { mc.MovieId, mc.CinemaId });
 
-            // SeedData(modelBuilder);
+            SeedData(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
 
-        /*private void SeedData(ModelBuilder modelBuilder)
+        private void SeedData(ModelBuilder modelBuilder)
         {
 
-            *//*var rolAdminId = "9aae0b6d-d50c-4d0a-9b90-2a6873e3845d";
+            var rolAdminId = "9aae0b6d-d50c-4d0a-9b90-2a6873e3845d";
             var usuarioAdminId = "5673b8cf-12de-44f6-92ad-fae4a77932ad";
 
             var rolAdmin = new IdentityRole()
@@ -51,7 +52,7 @@ namespace WebAPIMovies
 
             var passwordHasher = new PasswordHasher<IdentityUser>();
 
-            var username = "felipe@hotmail.com";
+            var username = "dannyoliva47@gmail.com";
 
             var usuarioAdmin = new IdentityUser()
             {
@@ -60,8 +61,8 @@ namespace WebAPIMovies
                 NormalizedUserName = username,
                 Email = username,
                 NormalizedEmail = username,
-                PasswordHash = passwordHasher.HashPassword(null, "Aa123456!")
-            };*//*
+                PasswordHash = passwordHasher.HashPassword(null, "Lospibesdela12.")
+            };
 
             //modelBuilder.Entity<IdentityUser>()
             //    .HasData(usuarioAdmin);
@@ -180,7 +181,7 @@ namespace WebAPIMovies
             var theBatman = new Movie()
             {
                 Id = 7,
-                Title = "Tee Batman",
+                Title = "The Batman",
                 InTheaters = true,
                 ReleaseDate = new DateTime(2022, 03, 04)
             };
@@ -254,6 +255,6 @@ namespace WebAPIMovies
                     new MoviesActors(){MovieId = wonderwoman.Id, ActorId = galGadot.Id, Character = "Wonder woman", Order = 1},
                     new MoviesActors(){MovieId = emma.Id, ActorId = anyaTaylorJoy.Id, Character = "Emma Woodhouse", Order = 1}
                 });
-        }*/
+        }
     }
 }

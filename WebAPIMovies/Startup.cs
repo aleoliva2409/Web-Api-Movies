@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using System.Text;
+using WebAPIMovies.Controllers;
 using WebAPIMovies.Helpers;
 using WebAPIMovies.Services;
 
