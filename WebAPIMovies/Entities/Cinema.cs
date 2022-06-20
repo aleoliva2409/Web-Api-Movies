@@ -3,12 +3,13 @@ using WebAPIMovies.Helpers;
 
 namespace WebAPIMovies.Entities
 {
-    public class Genre : IId
+    public class Cinema : IId
     {
         public int Id { get; set; }
+
         [Required]
-        [StringLength(40)]
+        [StringLength(120)]
         public string Name { get; set; }
-        public List<MoviesGenres> MoviesGenres { get; set; }
+        public List<MoviesCinemas> MoviesCinemas { get; set; }
     }
 }

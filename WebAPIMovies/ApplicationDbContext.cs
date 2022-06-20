@@ -16,14 +16,19 @@ namespace WebAPIMovies
 
             modelBuilder.Entity<MoviesGenres>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });
+            
+            modelBuilder.Entity<MoviesCinemas>()
+                .HasKey(mc => new { mc.MovieId, mc.CinemaId });
 
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<MoviesActors> MoviesActors { get; set; }
         public DbSet<MoviesGenres> MoviesGenres { get; set; }
+        public DbSet<MoviesCinemas> MoviesCinemas { get; set; }
     }
 }

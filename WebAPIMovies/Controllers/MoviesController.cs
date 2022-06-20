@@ -6,24 +6,28 @@ using WebAPIMovies.DTOs;
 using WebAPIMovies.Entities;
 using WebAPIMovies.Helpers;
 using WebAPIMovies.Services;
+using System.Linq.Dynamic.Core;
 
 namespace WebAPIMovies.Controllers
 {
     [ApiController]
     [Route("api/movies")]
-    public class MoviesController : ControllerBase
+    public class MoviesController : CustomBaseController
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
         private readonly IStoreFiles storeFiles;
+        private readonly ILogger logger;
         private readonly string container = "movies";
 
         public MoviesController(ApplicationDbContext context,
-            IMapper mapper, IStoreFiles storeFiles)
+            IMapper mapper, IStoreFiles storeFiles,
+            ILogger logger) : base(context, mapper)
         {
             this.context = context;
             this.mapper = mapper;
             this.storeFiles = storeFiles;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -80,6 +84,20 @@ namespace WebAPIMovies.Controllers
                     .Contains(movieFilterDTO.GenreId));
             }
 
+            if (!string.IsNullOrEmpty(movieFilterDTO.Order))
+            {
+                var orderType = movieFilterDTO.OrderAsc ? "ascending" : "descending";
+
+                try
+                {
+                    moviesQueryable = moviesQueryable.OrderBy($"{movieFilterDTO.Order} {orderType}");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex.Message, ex);
+                }
+            }
+
             await HttpContext.InsertPaginationParameters(moviesQueryable, movieFilterDTO.QuantityPerPage);
 
             var movies = await moviesQueryable.ToPaginate(movieFilterDTO.Pagination).ToListAsync();
@@ -88,7 +106,7 @@ namespace WebAPIMovies.Controllers
         }
 
         [HttpGet("{id:int}", Name = "getMovie")]
-        public async Task<ActionResult<MovieDetailDTO>> Get(int id)
+        public async Task<ActionResult<MovieDetailDTO>> GetById(int id)
         {
             var movieDB = await context.Movies
                 .Include(m => m.MoviesActors).ThenInclude(ma => ma.Actor)
@@ -165,49 +183,13 @@ namespace WebAPIMovies.Controllers
         [HttpPatch("{id:int}")]
         public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<MovieUpdateDTO> movieUpdateDTO)
         {
-            if (movieUpdateDTO == null)
-            {
-                return BadRequest();
-            }
-
-            var movieDB = await context.Movies.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (movieDB == null)
-            {
-                return NotFound();
-            }
-
-            var movieDTO = mapper.Map<MovieUpdateDTO>(movieDB);
-            movieUpdateDTO.ApplyTo(movieDTO, ModelState);
-
-            var isValid = TryValidateModel(movieDTO);
-
-            if (!isValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            mapper.Map(movieDTO, movieDB);
-
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return await Patch<Movie, MovieUpdateDTO>(id, movieUpdateDTO);
         }
         
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var isExistMovie = await context.Movies.AnyAsync(m => m.Id == id);
-
-            if (!isExistMovie)
-            {
-                return NotFound();
-            }
-
-            context.Remove(new Movie() { Id = id });
-            await context.SaveChangesAsync();
-
-            return NoContent();
+            return await Delete<Movie>(id);
         }
 
         private static void AsignOrderActors(Movie movie)

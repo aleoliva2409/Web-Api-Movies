@@ -19,5 +19,7 @@
         public int GenreId { get; set; }
         public bool InTheaters { get; set; }
         public bool NextReleases { get; set; }
+        public string Order { get; set; }
+        public bool OrderAsc { get; set; } = true;
     }
 }
