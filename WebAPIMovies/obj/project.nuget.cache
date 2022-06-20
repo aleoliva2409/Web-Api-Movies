@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "63dSvAu1LLwU5/P0OSCHfeGFP3ZOtu2sS6IpdmT4THwjFc+WYixnjmXq7jQzclxOqh0ysk3Kb9MUJF2Q6oNjbQ==",
+  "dgSpecHash": "ekIHFx/atnRDmPOMRNEed4fkRdQoitWl/pUbIJB1UzMyqea26NJ9j+MIHL7xV25UJ4cxQvh55Fdy2Zaxi88AHg==",
   "success": true,
   "projectFilePath": "C:\\Users\\danny\\Workspace\\C#\\MoviesAPI\\WebAPIMovies\\WebAPIMovies\\WebAPIMovies.csproj",
   "expectedPackageFiles": [
@@ -43,6 +43,7 @@
     "C:\\Users\\danny\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\danny\\.nuget\\packages\\nettopologysuite\\2.4.0\\nettopologysuite.2.4.0.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\swashbuckle.aspnetcore\\6.3.1\\swashbuckle.aspnetcore.6.3.1.nupkg.sha512",
@@ -55,6 +56,7 @@
     "C:\\Users\\danny\\.nuget\\packages\\system.drawing.common\\4.7.0\\system.drawing.common.4.7.0.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.8.0\\system.identitymodel.tokens.jwt.6.8.0.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\system.io.hashing\\6.0.0\\system.io.hashing.6.0.0.nupkg.sha512",
+    "C:\\Users\\danny\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\danny\\.nuget\\packages\\system.runtime.caching\\4.7.0\\system.runtime.caching.4.7.0.nupkg.sha512",

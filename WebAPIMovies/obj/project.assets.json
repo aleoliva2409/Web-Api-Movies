@@ -537,6 +537,18 @@
           }
         }
       },
+      "NetTopologySuite/2.4.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
@@ -698,6 +710,15 @@
         },
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "System.Memory/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
         }
       },
       "System.Memory.Data/1.0.2": {
@@ -1819,6 +1840,20 @@
         "version.txt"
       ]
     },
+    "NetTopologySuite/2.4.0": {
+      "sha512": "dGA7ZcCRn664AcusGJdva5r+fvQ2mfUAaBX9QLC3fwtiFi05fEOLqzZ5tTg+MWF0xCy5iCaEDYAcxnB2eLJMdQ==",
+      "type": "package",
+      "path": "nettopologysuite/2.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/NetTopologySuite.dll",
+        "lib/netstandard2.0/NetTopologySuite.xml",
+        "nettopologysuite.2.4.0.nupkg.sha512",
+        "nettopologysuite.nuspec"
+      ]
+    },
     "Newtonsoft.Json/13.0.1": {
       "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "type": "package",
@@ -2096,6 +2131,27 @@
         "system.io.hashing.6.0.0.nupkg.sha512",
         "system.io.hashing.nuspec",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Memory/4.5.3": {
+      "sha512": "3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "type": "package",
+      "path": "system.memory/4.5.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.1/System.Memory.dll",
+        "lib/netstandard1.1/System.Memory.xml",
+        "lib/netstandard2.0/System.Memory.dll",
+        "lib/netstandard2.0/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
+        "system.memory.4.5.3.nupkg.sha512",
+        "system.memory.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Memory.Data/1.0.2": {
@@ -2613,6 +2669,7 @@
       "Microsoft.EntityFrameworkCore >= 6.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.6",
+      "NetTopologySuite >= 2.4.0",
       "Swashbuckle.AspNetCore >= 6.3.1"
     ]
   },
@@ -2684,6 +2741,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[6.0.6, )"
+          },
+          "NetTopologySuite": {
+            "target": "Package",
+            "version": "[2.4.0, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

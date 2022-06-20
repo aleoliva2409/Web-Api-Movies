@@ -14,5 +14,6 @@ namespace WebAPIMovies.Entities
         public string Poster { get; set; }
         public List<MoviesActors> MoviesActors { get; set; }
         public List<MoviesGenders> MoviesGenders { get; set; }
+        public List<MoviesCinemas> moviesCinemas { get; set; }
     }
 }
