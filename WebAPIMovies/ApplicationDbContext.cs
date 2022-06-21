@@ -65,20 +65,20 @@ namespace WebAPIMovies
                 PasswordHash = passwordHasher.HashPassword(null, "Lospibesdela12.")
             };
 
-            //modelBuilder.Entity<IdentityUser>()
-            //    .HasData(usuarioAdmin);
+            modelBuilder.Entity<IdentityUser>()
+                .HasData(usuarioAdmin);
 
-            //modelBuilder.Entity<IdentityRole>()
-            //    .HasData(rolAdmin);
+            modelBuilder.Entity<IdentityRole>()
+                .HasData(rolAdmin);
 
-            //modelBuilder.Entity<IdentityUserClaim<string>>()
-            //    .HasData(new IdentityUserClaim<string>()
-            //    {
-            //        Id = 1,
-            //        ClaimType = ClaimTypes.Role,
-            //        UserId = usuarioAdminId,
-            //        ClaimValue = "Admin"
-            //    });
+            modelBuilder.Entity<IdentityUserClaim<string>>()
+                .HasData(new IdentityUserClaim<string>()
+                {
+                    Id = 1,
+                    ClaimType = ClaimTypes.Role,
+                    UserId = usuarioAdminId,
+                    ClaimValue = "Admin"
+                });
 
             var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
 
