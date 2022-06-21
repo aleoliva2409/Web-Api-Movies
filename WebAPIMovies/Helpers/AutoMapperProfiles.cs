@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using WebAPIMovies.DTOs;
@@ -12,6 +13,8 @@ namespace WebAPIMovies.Helpers
         {
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GenreCreateDTO, Genre>();
+
+            CreateMap<IdentityUser, UserDTO>();
 
             CreateMap<Cinema, CinemaDTO>()
                 .ForMember(c => c.Latitude, opt => opt.MapFrom(c => c.Location.Y))

@@ -6,7 +6,7 @@ using WebAPIMovies.Entities;
 namespace WebAPIMovies.Controllers
 {
     [ApiController]
-    [Route("api/genders")]
+    [Route("api/genres")]
     public class GenresController : CustomBaseController
     {
         public GenresController(ApplicationDbContext context,

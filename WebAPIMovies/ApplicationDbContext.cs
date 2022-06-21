@@ -18,6 +18,7 @@ namespace WebAPIMovies
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Cinema> Cinemas { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<MoviesActors> MoviesActors { get; set; }
         public DbSet<MoviesGenres> MoviesGenres { get; set; }
         public DbSet<MoviesCinemas> MoviesCinemas { get; set; }

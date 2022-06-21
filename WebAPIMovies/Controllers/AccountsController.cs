@@ -82,8 +82,6 @@ namespace WebAPIMovies.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<List<UserDTO>>> Get([FromQuery] PaginationDTO paginationDTO)
         {
-            var queryable = context.Users.AsQueryable();
-            queryable = queryable.OrderBy(u => u.Email);
             return await Get<IdentityUser, UserDTO>(paginationDTO);
         }
 
