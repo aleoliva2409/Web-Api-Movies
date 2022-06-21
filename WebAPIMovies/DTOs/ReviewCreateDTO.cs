@@ -7,6 +7,6 @@ namespace WebAPIMovies.DTOs
         public string Comment { get; set; }
 
         [Range(1, 5)]
-        public int Score { get; set; }
+        public float Score { get; set; }
     }
 }
