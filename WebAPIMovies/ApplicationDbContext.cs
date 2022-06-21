@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite;
 using NetTopologySuite.Geometries;
+using System.Security.Claims;
 using WebAPIMovies.Entities;
 
 namespace WebAPIMovies
