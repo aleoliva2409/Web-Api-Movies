@@ -14,8 +14,6 @@ namespace WebAPIMovies.Helpers
             CreateMap<Genre, GenreDTO>().ReverseMap();
             CreateMap<GenreCreateDTO, Genre>();
 
-            CreateMap<IdentityUser, UserDTO>();
-
             CreateMap<Cinema, CinemaDTO>()
                 .ForMember(c => c.Latitude, opt => opt.MapFrom(c => c.Location.Y))
                 .ForMember(c => c.Longitude, opt => opt.MapFrom(c => c.Location.X));
@@ -44,6 +42,14 @@ namespace WebAPIMovies.Helpers
             CreateMap<Movie, MovieDetailDTO>()
                 .ForMember(m => m.Genres, opt => opt.MapFrom(MapMoviesGenres))
                 .ForMember(m => m.Actors, opt => opt.MapFrom(MapMoviesActors));
+
+            CreateMap<IdentityUser, UserDTO>();
+
+            CreateMap<Review, ReviewDTO>()
+                .ForMember(r => r.Username, opt => opt.MapFrom(r => r.User.UserName));
+
+            CreateMap<ReviewDTO, Review>();
+            CreateMap<ReviewCreateDTO, Review>();
         }
 
         private List<MoviesGenres> MapMoviesGenres(MovieCreateDTO movieCreateDTO, Movie movie)

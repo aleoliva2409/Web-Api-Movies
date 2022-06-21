@@ -10,7 +10,7 @@ namespace WebAPIMovies.Entities
         public string Comment { get; set; }
 
         [Range(1, 5)]
-        public int Score { get; set; }
+        public float Score { get; set; }
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
         public string UserId { get; set; }
