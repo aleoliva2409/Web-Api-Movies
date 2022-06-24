@@ -92,7 +92,7 @@ namespace WebAPIMovies.Controllers
                 catch
                 {
                     // logger.LogError(ex.Message);
-                    return BadRequest("Invalid filter");
+                    Console.WriteLine("Invalid filter");
                 }
             }
 
